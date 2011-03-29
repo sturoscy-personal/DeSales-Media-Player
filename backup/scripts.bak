@@ -1,0 +1,23 @@
+	<!-- Backup of JW Player Script
+	<?php 
+		echo("
+		    <script type='text/javascript'>
+			    var s1 = new SWFObject('includes/player.swf', 'player', '640', '480', '9.0.0', '#FFFFFF');
+			    s1.addParam('allowfullscreen', 'true');
+			    s1.addParam('allowscriptaccess', 'always');
+			    s1.addParam('flashvars', 'playerready=playerReadyCallback&stretching=fill&fullscreen=true&bufferlength=5&file=" . $sFile . "&streamer=rtmp://mediasrv01.desales.edu/vod');
+			    s1.write('main_player');
+		    </script>
+		");
+	?>
+	-->
+	
+	<!-- Include the script as the last item (moved to below script tag)
+		<script type='text/javascript'>
+		    var s1 = new SWFObject('includes/player.swf', 'player', '640', '740', '9.0.0', '#FFFFFF');
+		    s1.addParam('allowfullscreen', 'true');
+		    s1.addParam('allowscriptaccess', 'always');
+		    s1.addParam('flashvars', 'playerready=playerReadyCallback&stretching=uniform&fullscreen=true&bufferlength=5&file=<?php echo($sFile); ?>&playlistsize=240&playlist=bottom&streamer=rtmp://mediasrv01.desales.edu/vod');
+		    s1.write('main_player');
+		</script>
+	-->

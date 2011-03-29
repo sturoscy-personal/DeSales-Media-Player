@@ -1,0 +1,46 @@
+body {
+	height: 100%;
+	font: normal 1.0016em/1.5em Arial, Helvetica, sans-serif;
+	background: url('../images/background.png') repeat-x;
+	margin: 35px 0px;
+	padding: 0px;
+}
+
+html > body {font-size: 16px; height: 100%;}
+
+a {
+	color: #004b85; 
+	text-decoration: none; 
+	font-size: 0.85em;
+	font-weight: bold;
+}
+
+a:hover {cursor: pointer;}
+
+h1 {margin: 0.7500em 0; font-size: 2.000em; line-height: 0.7500em; /* 32px */}
+h2 {margin: 0.8571em 0; font-size: 1.750em; line-height: 0.8571em; /* 28px */}
+h3 {margin: 1.0000em 0; font-size: 1.500em; line-height: 1.0000em; /* 24px */}
+h4 {margin: 1.2000em 0; font-size: 1.250em; line-height: 1.2000em; /* 20px */}
+h5 {margin: 1.3333em 0; font-size: 1.125em; line-height: 1.3333em; /* 18px */}
+
+h1, h2, h3, h4, h5 {color: #3D3D3D; letter-spacing: -1px;}
+
+p {
+	margin: 1.5em 0;
+	line-height: 1.5em;
+	font-size: 1.00em /* 16px */;
+	color: #404040;
+}
+
+#header {}
+
+#main_player{
+	margin-left: 10px;
+	margin-top: 15px;
+}
+
+#main_player_info {}
+
+#toggle {margin-left: 10px;}
+
+.bold {font-weight: bold;}
