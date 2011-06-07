@@ -3,6 +3,19 @@
 	//Pull the file from the GET request
 	$sFile      = $_GET['sFile'];
 	
+	//Check to see that sFile actually has a value
+	if (($sFile == '') || ($sFile == '/')) {
+		$fileError =	"<h3>There is an error on the page. Most likely it is due to a malformed URL.</h3>" .
+						"<p>The URL should be formed as follows:<br />" .
+						"<ul>" . 
+						"<li>http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/[your last name]/[name of file]</li>" .
+						"<li>Example: <a href='http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/sturoscy/CSSversusTables.flv'>http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/sturoscy/CSSversusTables.flv</a></li>" . 
+						"</ul></p>" . 
+						"<p>If you continue to experience issues, please contact DEIT at <a href='mailto:deit@desales.edu'>deit@desales.edu</a> or at 610.282.1100 x2290.</p>";
+	} else {
+		$fileError = "";
+	}
+
 	//Determine its extension
 	$xmlpattern = "/\.xml/";
 	$flvpattern = "/\.flv/";
@@ -90,6 +103,11 @@
 			
 			<div id="flash_error" class="grid_10"></div>
 			<div class="clear"></div>
+			
+			<div id="file_error" class="grid_12">
+				<?php echo ($fileError); ?>
+			</div>
+			<div class="clear"></div>
 
 			<div id="main_player"></div>
 			<div class="clear"></div>
@@ -135,7 +153,8 @@
 				<?php echo($fileOutput) ; ?>,
 				'logo.file':	'http://deit.desales.edu/MediaPlayer/images/media_logo_watermark.png',
 				'skin':			'http://deit.desales.edu/MediaPlayer/skins/five/five.zip',
-				'streamer':		'rtmp://mediasrv01.desales.edu/vod/',
+				'streamer':		'rtmp://mediasrv01.desales.edu:1935/vod/',
+				'provider':		'rtmp',
 				'title':		'DeSales University Media Player',
 
 				//Google plugin
