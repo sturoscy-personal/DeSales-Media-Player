@@ -176,7 +176,8 @@
 				'name':	'player1'
 			};
 
-			swfobject.embedSWF('http://deit.desales.edu/MediaPlayer/includes/licensed/mediaplayer54/player.swf', 'main_player', '640', '480', '9', 'false', flashvars, params, attributes);
+			//The player version is indicated by the folder name i.e. /mediaplayer56 = jwPlayer version 5.6
+			swfobject.embedSWF('http://deit.desales.edu/MediaPlayer/includes/licensed/mediaplayer56/player.swf', 'main_player', '640', '480', '9', 'false', flashvars, params, attributes);
 		};
 
 		google.setOnLoadCallback(embed);
