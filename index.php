@@ -153,7 +153,7 @@
 				<?php echo($fileOutput) ; ?>,
 				'logo.file':	'http://deit.desales.edu/MediaPlayer/images/media_logo_watermark.png',
 				'skin':			'http://deit.desales.edu/MediaPlayer/skins/five/five.zip',
-				'streamer':		'rtmp://mediasrv01.desales.edu:1935/vod/',
+				'streamer':		'rtmp://mediasrv01.desales.edu/vod/',
 				'provider':		'rtmp',
 				'title':		'DeSales University Media Player',
 
