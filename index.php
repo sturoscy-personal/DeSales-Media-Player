@@ -1,7 +1,11 @@
 <?php
 
-	//Pull the file from the GET request
+	//Pull the file and title boolean from the GET request
 	$sFile      = $_GET['sFile'];
+	$noTitle	= $_GET['title'];
+	if (!$noTitle){
+		$noTitle = 0;
+	}
 	
 	//Check to see that sFile actually has a value
 	if (($sFile == '') || ($sFile == '/')) {
@@ -90,7 +94,20 @@
 		</script>
 		<script type="text/javascript" src="javascript/jwplayer.js"></script>
 		<script type="text/javascript" src="javascript/flash-detect-min.js"></script>
-		<script type="text/javascript" src="javascript/jquery.playlist.js"></script>
+		<script type="text/javascript">
+
+			//Load the playlist file via an ajax call based on whether or not title is true/false/undefined
+			google.setOnLoadCallback(function() {
+				var title = <?php echo($noTitle); ?>;
+				console.log(title);
+				if(title == 0) {
+					$("#player_margin").css({"margin" : "auto", "width" : "640px"});
+				} else if (title == 1) {
+					$.getScript("javascript/jquery.playlist.js");
+				}
+			})
+
+		</script>
 		<script src="http://cdn.jquerytools.org/1.2.2/all/jquery.tools.min.js"></script>
 		<title>DeSales University Media Player</title>
 	</head>
@@ -109,13 +126,14 @@
 			</div>
 			<div class="clear"></div>
 
-			<div id="main_player"></div>
+			<div id="player_margin">
+				<div id="main_player"></div>
+			</div>
 			<div class="clear"></div>
 		</div>
 	</body>
 	<script type="text/javascript">
 	
-		//Flash Detection
 		google.setOnLoadCallback(function() {
 			
 			//Flash detection script
