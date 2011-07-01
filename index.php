@@ -98,8 +98,17 @@
 
 			//Load the playlist js file via an ajax call based on whether or not title is true/false/undefined
 			google.setOnLoadCallback(function() {
+
+				//Get Boolean value from PHP GET for conditional statement below
 				var title = <?php echo($noTitle); ?>;
-				if(title == 0) {
+
+				//Get file type from PHP for conditional statement below
+				var file  = "<?php echo($fileType); ?>";
+
+				//Set the title, or not
+				if(file == "xml") {
+					$.getScript("javascript/jquery.playlist.js");
+				}else if(title == 0) {
 					$("#player_margin").css({"margin" : "auto", "width" : "640px"});
 				} else if (title == 1) {
 					$.getScript("javascript/jquery.playlist.js");
