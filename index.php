@@ -96,10 +96,9 @@
 		<script type="text/javascript" src="javascript/flash-detect-min.js"></script>
 		<script type="text/javascript">
 
-			//Load the playlist file via an ajax call based on whether or not title is true/false/undefined
+			//Load the playlist js file via an ajax call based on whether or not title is true/false/undefined
 			google.setOnLoadCallback(function() {
 				var title = <?php echo($noTitle); ?>;
-				console.log(title);
 				if(title == 0) {
 					$("#player_margin").css({"margin" : "auto", "width" : "640px"});
 				} else if (title == 1) {
