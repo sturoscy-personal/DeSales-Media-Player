@@ -43,6 +43,20 @@
 			</style>
 		<![endif]-->
 		
+		<style type="text/css">
+			/* 
+				Alternate layout for alt-embed.php
+				Update playlist.css when ready for production
+			*/	
+			.jw_playlist_playlist_right {
+				float: none;
+				width: 300px;
+				height: 480px;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+		</style>
+		
 		<script src="http://www.google.com/jsapi?key=ABQIAAAAouTcR5pargXhEAtm4CODuhR1IgWQluDLEZuG6zC4jkkgj3hPMhT_DiGugOsQJmWOxV5nYZepBkPkxg" type="text/javascript"></script>
 		<script type="text/javascript">
 			google.load("jquery", "1");
