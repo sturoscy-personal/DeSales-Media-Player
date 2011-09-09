@@ -19,9 +19,30 @@
 	} else {
 		$fileError = "";
 	}
-
-	//For Flash enabled devices
-	$fileOutput = "'file': '" . $sFile . "'";
+	
+	//Determine its extension
+	$xmlpattern = "/\.xml/";
+	$mp4pattern = "/\.mp4/";
+	
+	//Set all to false
+	$xml = false;
+	$flv = false;
+	$mov = false;
+	$m4v = false;
+	$mp3 = false;
+	$mp4 = false;
+	$wmv = false;
+	
+	//Get file type
+	if (preg_match($xmlpattern, $sFile, $matches)){
+		$xml = true;
+		$fileType   = "xml";
+		$fileOutput = "'playlistfile': '" . $sFile . "'";
+	} elseif (preg_match($mp4pattern, $sFile, $matches)) {
+		$mp4 = true;
+		$fileType = "mp4";
+		$fileOutput = "'file': '" . $sFile . "'";
+	}
 	
 	//For iOS devices
 	$altFileOutput = "'file': '/media" . $sFile . "'";
