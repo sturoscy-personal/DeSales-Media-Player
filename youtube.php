@@ -1,7 +1,7 @@
 <?php
 
 	//Pull the file and title boolean from the GET request
-	$sFile      = $_GET['sFile'];	
+	$sFile      = $_GET['sFile'];
 	$noTitle	= $_GET['title'];
 	if (!$noTitle){
 		$noTitle = 0;
@@ -19,28 +19,19 @@
 	} else {
 		$fileError = "";
 	}
-	
+
 	//Determine its extension
-	$xmlpattern = "/\.xml/";
-	$mp4pattern = "/\.mp4/";
+	$ytbpattern = "/\youtube/";
 	
 	//Set all to false
-	$xml = false;
-	$mp4 = false;
+	$ytb = false;
 	
 	//Get file type
-	if (preg_match($xmlpattern, $sFile, $matches)){
-		$xml = true;
-		$fileType   = "xml";
-		$fileOutput = "'playlistfile': '" . $sFile . "'";
-	} elseif (preg_match($mp4pattern, $sFile, $matches)) {
-		$mp4 = true;
-		$fileType = "mp4";
+	if (preg_match($ytbpattern, $sFile, $matches)) {
+		$ytb = true;
+		$fileType = "Youtube Video";
 		$fileOutput = "'file': '" . $sFile . "'";
 	}
-	
-	//For iOS devices
-	$altFileOutput = "'file': '/media" . $sFile . "'";
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -59,20 +50,6 @@
 			</style>
 		<![endif]-->
 		
-		<style type="text/css">
-			/* 
-				Alternate layout for alt-embed.php
-				Update playlist.css when ready for production
-			*/	
-			.jw_playlist_playlist_right {
-				float: none;
-				width: 300px;
-				height: 480px;
-				overflow-y: auto;
-				overflow-x: hidden;
-			}
-		</style>
-		
 		<script src="http://www.google.com/jsapi?key=ABQIAAAAouTcR5pargXhEAtm4CODuhR1IgWQluDLEZuG6zC4jkkgj3hPMhT_DiGugOsQJmWOxV5nYZepBkPkxg" type="text/javascript"></script>
 		<script type="text/javascript">
 			google.load("jquery", "1");
@@ -80,6 +57,7 @@
 			google.load("swfobject", "2");
 		</script>
 		<script type="text/javascript" src="javascript/jwplayer.js"></script>
+		<script type="text/javascript" src="javascript/flash-detect-min.js"></script>
 		<script type="text/javascript">
 
 			//Load the playlist js file via an ajax call based on whether or not title is true/false/undefined
@@ -127,53 +105,66 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+		google.setOnLoadCallback(function() {
+			
+			//Flash detection script
+			if(!FlashDetect.installed) {
+				//Flash is not installed
+				var flashError = "<h3>You do not have Flash Player installed. <br /><br />Please visit <a href='http://get.adobe.com/flashplayer/' target='_window'>http://get.adobe.com/flashplayer/</a>" + 
+								 " to download and install the newest version of Flash.</h3>";
+				$("#flash_error").html(flashError);
+				$("#main_player").css({display : 'none'});
+			} else {
+				if (FlashDetect.versionAtLeast(10)){
+					//Flash is installed
+					//Call the embed function below
+					embed();
+				} else {
+					//Outdated version of Flash
+					var flashError = "<h3>You need to update your version of Flash. <br /><br />Please visit <a href='http://get.adobe.com/flashplayer/' target='_window'>http://get.adobe.com/flashplayer/</a>" + 
+									 " to download and install the newest version of Flash.</h3>";
+					$("#flash_error").html(flashError);
+					$("#main_player").css({display : 'none'});
+				}
+			}
+		})
+	</script>
+	<script type="text/javascript">
 		
 		//Embed the player
 		//This is only called if the flash detection script is true
 		function embed() {
-			jwplayer('main_player').setup({
+
+			var flashvars = {
 				'autostart':	'false',
 				'bufferlength':	'5',
 				'description':	'File: <?php echo($sFile); ?>',
-				'id': 			'player1',
-				'logo.file':	'http://deit.desales.edu/MediaPlayer/images/media_logo_watermark.png',
-				'name':			'player1',
-				'provider':		'rtmp',
-				'skin':			'http://deit.desales.edu/MediaPlayer/skins/five/five.zip',
-				'streamer':		'rtmp://mediasrv01.desales.edu/vod/',
-				'title':		'DeSales University Media Player',
-				'width': 		'640',
-				'height': 		'480',
 				<?php echo($fileOutput) ; ?>,
-				'modes': [
-					{type: 'flash', src: 'http://deit.desales.edu/MediaPlayer/includes/licensed/mediaplayer56/player.swf'},
-					{
-						type: 'html5',
-						config: {
-							<?php echo($altFileOutput) ; ?>,
-							'provider': 'video'
-						}
-					},
-					{
-						type: 'download',
-						config: {
-							<?php echo($altFileOutput) ; ?>,
-							'provider': 'video'
-						}
-					}
-				],
+				'logo.file':	'http://deit.desales.edu/MediaPlayer/images/media_logo_watermark.png',
+				'skin':			'http://deit.desales.edu/MediaPlayer/skins/five/five.zip',
+				'title':		'DeSales University Media Player',
 
 				//Google plugin
 				'plugins':					'gapro-1',
 				'gapro.accountid':			'UA-15284864-3',
 		    	'gapro.trackstarts':		'true',
 				'gapro.trackpercentages':	'true', 
-				'gapro.tracktime': 			'true',
+				'gapro.tracktime': 			'true'
+			};
 
+			var params = {
 				'allowfullscreen':		'true',
 				'allowscriptaccess':	'always',
 				'wmode':				'opaque'
-			});
+			};
+
+			var attributes = {
+				'id': 	'player1',
+				'name':	'player1'
+			};
+
+			//The player version is indicated by the folder name i.e. /mediaplayer56 = jwPlayer version 5.6
+			swfobject.embedSWF('http://deit.desales.edu/MediaPlayer/includes/licensed/mediaplayer56/player.swf', 'main_player', '640', '480', '9', 'false', flashvars, params, attributes);
 		};
 
 		google.setOnLoadCallback(embed);

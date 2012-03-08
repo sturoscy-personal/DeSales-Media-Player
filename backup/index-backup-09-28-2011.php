@@ -1,5 +1,26 @@
-<?php 
+<?php
+
+	//Pull the file and title boolean from the GET request
 	$sFile      = $_GET['sFile'];
+	$noTitle	= $_GET['title'];
+	if (!$noTitle){
+		$noTitle = 0;
+	}
+	
+	//Check to see that sFile actually has a value
+	if (($sFile == '') || ($sFile == '/')) {
+		$fileError =	"<h3>There is an error on the page. Most likely it is due to a malformed URL.</h3>" .
+						"<p>The URL should be formed as follows:<br />" .
+						"<ul>" . 
+						"<li>http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/[your last name]/[name of file]</li>" .
+						"<li>Example: <a href='http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/sturoscy/CSSversusTables.flv'>http://deit.desales.edu/MediaPlayer/index.php?sFile=/faculty/sturoscy/CSSversusTables.flv</a></li>" . 
+						"</ul></p>" . 
+						"<p>If you continue to experience issues, please contact DEIT at <a href='mailto:deit@desales.edu'>deit@desales.edu</a> or at 610.282.1100 x2290.</p>";
+	} else {
+		$fileError = "";
+	}
+
+	//Determine its extension
 	$xmlpattern = "/\.xml/";
 	$flvpattern = "/\.flv/";
 	$movpattern = "/\.mov/";
@@ -8,6 +29,7 @@
 	$mp4pattern = "/\.mp4/";
 	$wmvpattern = "/\.wmv/";
 	
+	//Set all to false
 	$xml = false;
 	$flv = false;
 	$mov = false;
@@ -70,8 +92,30 @@
 			google.load("jqueryui", "1");
 			google.load("swfobject", "2");
 		</script>
+		<script type="text/javascript" src="javascript/jwplayer.js"></script>
 		<script type="text/javascript" src="javascript/flash-detect-min.js"></script>
-		<script type="text/javascript" src="javascript/jquery.playlist.js"></script>
+		<script type="text/javascript">
+
+			//Load the playlist js file via an ajax call based on whether or not title is true/false/undefined
+			google.setOnLoadCallback(function() {
+
+				//Get Boolean value from PHP GET for conditional statement below
+				var title = <?php echo($noTitle); ?>;
+
+				//Get file type from PHP for conditional statement below
+				var file  = "<?php echo($fileType); ?>";
+
+				//Set the title, or not
+				if(file == "xml") {
+					$.getScript("javascript/jquery.playlist.js");
+				}else if(title == 0) {
+					$("#player_margin").css({"margin" : "auto", "width" : "640px"});
+				} else if (title == 1) {
+					$.getScript("javascript/jquery.playlist.js");
+				}
+			})
+
+		</script>
 		<script src="http://cdn.jquerytools.org/1.2.2/all/jquery.tools.min.js"></script>
 		<title>DeSales University Media Player</title>
 	</head>
@@ -84,14 +128,19 @@
 			
 			<div id="flash_error" class="grid_10"></div>
 			<div class="clear"></div>
+			
+			<div id="file_error" class="grid_12">
+				<?php echo ($fileError); ?>
+			</div>
+			<div class="clear"></div>
 
-			<div id="main_player"></div>
+			<div id="player_margin">
+				<div id="main_player"></div>
+			</div>
 			<div class="clear"></div>
 		</div>
 	</body>
 	<script type="text/javascript">
-	
-		//Flash Detection
 		google.setOnLoadCallback(function() {
 			
 			//Flash detection script
@@ -114,7 +163,7 @@
 					$("#main_player").css({display : 'none'});
 				}
 			}
-		})	
+		})
 	</script>
 	<script type="text/javascript">
 		
@@ -124,12 +173,13 @@
 
 			var flashvars = {
 				'autostart':	'false',
-				'bufferlength':	'2',
+				'bufferlength':	'5',
 				'description':	'File: <?php echo($sFile); ?>',
 				<?php echo($fileOutput) ; ?>,
 				'logo.file':	'http://deit.desales.edu/MediaPlayer/images/media_logo_watermark.png',
 				'skin':			'http://deit.desales.edu/MediaPlayer/skins/five/five.zip',
 				'streamer':		'rtmp://mediasrv01.desales.edu/vod/',
+				'provider':		'rtmp',
 				'title':		'DeSales University Media Player',
 
 				//Google plugin
@@ -151,7 +201,8 @@
 				'name':	'player1'
 			};
 
-			swfobject.embedSWF('http://deit.desales.edu/MediaPlayer/includes/licensed/player.swf', 'main_player', '640', '480', '9', 'false', flashvars, params, attributes);
+			//The player version is indicated by the folder name i.e. /mediaplayer56 = jwPlayer version 5.6
+			swfobject.embedSWF('http://deit.desales.edu/MediaPlayer/includes/licensed/mediaplayer56/player.swf', 'main_player', '640', '480', '9', 'false', flashvars, params, attributes);
 		};
 
 		google.setOnLoadCallback(embed);

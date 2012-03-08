@@ -35,6 +35,15 @@ object , embed{
 
 .jw_playlist_item {
 	padding:10px 20px;
+	
+	/* CSS3 Background Gradient (will work in most browsers. */
+	background: -moz-linear-gradient(top, rgba(191,191,191,1) 0%, rgba(255,255,255,0) 20%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(191,191,191,1)), color-stop(20%,rgba(255,255,255,0)));
+	background: -webkit-linear-gradient(top, rgba(191,191,191,1) 0%,rgba(255,255,255,0) 20%);
+	background: -o-linear-gradient(top, rgba(191,191,191,1) 0%,rgba(255,255,255,0) 20%);
+	background: -ms-linear-gradient(top, rgba(191,191,191,1) 0%,rgba(255,255,255,0) 20%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfbfbf', endColorstr='#00ffffff',GradientType=0 );
+	background: linear-gradient(top, rgba(191,191,191,1) 0%,rgba(255,255,255,0) 20%);
 }
 
 .clear {
@@ -47,18 +56,8 @@ object , embed{
 	font-size: 0.95em;
 }
 
-.jw_playlist_description {
-	font-size: 0.85em;
-}
+.jw_playlist_description { font-size: 0.85em; }
 
-.even {
-	background-color: #EEEEEE;
-}
-
-.odd {
-	background-color: #FFFFFF;
-}
-
-.playing {
-	background-color: #FFFF00;
-}
+.even    { background-color: #EEEEEE; }
+.odd     { background-color: #FFFFFF; }
+.playing { background-color: #FFFFFF; }

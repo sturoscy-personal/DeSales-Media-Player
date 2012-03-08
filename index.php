@@ -28,6 +28,7 @@
 	$m4vpattern = "/\.m4v/";
 	$mp4pattern = "/\.mp4/";
 	$wmvpattern = "/\.wmv/";
+	$ytbpattern = "/\youtube/";
 	
 	//Set all to false
 	$xml = false;
@@ -37,6 +38,7 @@
 	$mp3 = false;
 	$mp4 = false;
 	$wmv = false;
+	$ytb = false;
 	
 	//Get file type
 	if (preg_match($xmlpattern, $sFile, $matches)){
@@ -66,6 +68,10 @@
 	} elseif (preg_match($wmvpattern, $sFile, $matches)) {
 		$wmv = true;
 		$fileType = "wmv";
+		$fileOutput = "'file': '" . $sFile . "'";
+	} elseif (preg_match($ytbpattern, $sFile, $matches)) {
+		$ytb = true;
+		$fileType = "Youtube Video";
 		$fileOutput = "'file': '" . $sFile . "'";
 	}
 
